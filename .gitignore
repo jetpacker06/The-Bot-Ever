@@ -1,0 +1,4 @@
+# Project exclude paths
+/the-bot-ever/.gradle/
+/the-bot-ever/build/
+/the-bot-ever/build/classes/java/main/
