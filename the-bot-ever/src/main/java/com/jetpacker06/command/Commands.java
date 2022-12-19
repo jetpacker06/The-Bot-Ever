@@ -1,11 +1,13 @@
 package com.jetpacker06.command;
 
 import com.jetpacker06.TheBotEver;
+import com.jetpacker06.util.Channels;
+import com.jetpacker06.util.Guilds;
 import com.jetpacker06.util.Util;
 import net.dv8tion.jda.api.EmbedBuilder;
-import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.MessageBuilder;
-import net.dv8tion.jda.api.entities.Message;
+import net.dv8tion.jda.api.entities.TextChannel;
+import net.dv8tion.jda.api.entities.emoji.Emoji;
 import net.dv8tion.jda.api.events.GenericEvent;
 import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
@@ -19,8 +21,6 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Random;
-
-import static com.jetpacker06.TheBotEver.log;
 
 @SuppressWarnings("ResultOfMethodCallIgnored")
 public class Commands extends ListenerAdapter {
@@ -45,8 +45,7 @@ public class Commands extends ListenerAdapter {
     //This is always null except while registerSlashCommands() is actively executing
     public static CommandListUpdateAction clua = null;
     public static void registerSlashCommands() {
-        JDA jda = TheBotEver.jda;
-        clua = jda.updateCommands();
+        clua = TheBotEver.jda.updateCommands();
         addCommand(
                 "kys",
                 "Send a KYS gif",
@@ -61,16 +60,24 @@ public class Commands extends ListenerAdapter {
                     event.reply(new MessageBuilder().setEmbeds(Util.createImageEmbed("https://cdn.discordapp.com/attachments/1012378583773233162/1013312028695334942/unknown.png")).build()).queue();
                 }
         );
+        addCommand(
+                "precise",
+                "Very precise calculations.",
+                (event) -> {
+                    event.reply(new MessageBuilder().setEmbeds(Util.createImageEmbed("https://media.tenor.com/t5xwKNKc2cIAAAAd/very-very-precise-steve-kornacki.gif")).build()).queue();
+                }
+        );
         addCommand("emote", "Do an emote.", (event) -> {
-            event.reply(new MessageBuilder().setEmbeds(Util.createImageEmbed(Util.emotes_list[new Random().nextInt(Util.emotes_list.length)])).build()).queue();
+                event.reply(new MessageBuilder().setEmbeds(Util.createImageEmbed(Util.emotes_list[new Random().nextInt(Util.emotes_list.length)])).build()).queue();
         });
         addCommand("think", "Hmm...", (event) -> {
-            event.deferReply().queue();
+                event.deferReply().queue();
         });
         addCommand(
                 "plan",
                 "Plan an event",
                 (event) -> {
+                    event.deferReply().queue();
                     EmbedBuilder builder = Util.blueBuilder();
                     builder.setTitle(getStrOp("event"));
                     builder.addField("Organizer", event.getMember().getEffectiveName(), false);
@@ -79,13 +86,24 @@ public class Commands extends ListenerAdapter {
                     if (optionExists("where")) builder.addField("Where", getStrOp("where"), false);
                     if (optionExists("when")) builder.addField("When", getStrOp("when"), false);
                     if (optionExists("bring")) builder.addField("Bring", getStrOp("bring"), false);
-                    if (optionExists("extrainformation")) builder.addField("Extra Information", getStrOp("extrainformation"), false);
+                    if (optionExists("extrainformation")) builder.addField("Extra Information", getStrOp("extrainformation"), true);
 
                     MessageBuilder m = new MessageBuilder();
                     if (boolOrElse("ping", false)) m.append("||@everyone||");
                     m.setEmbeds(builder.build());
+                    TextChannel channel;
 
-                    event.reply(m.build()).queue();
+                    if (isTheBoysServer(event)) {
+                        channel = Channels.plans;
+                    } else {
+                        channel = Channels.jgeneral;
+                    }
+
+                    channel.sendMessage(m.build()).queue((message) -> {
+                        message.addReaction(Emoji.fromUnicode("U+2B06")).queue(); //up arrow
+                        message.addReaction(Emoji.fromUnicode("U+2B07")).queue(); //down arrow
+                    });
+                    event.getHook().deleteOriginal().queue();
                 },
                 new CommandField(OptionType.STRING, "event", "What is the event?", true),
                 new CommandField(OptionType.STRING, "when", "When is the event?", false),
@@ -147,5 +165,11 @@ public class Commands extends ListenerAdapter {
             return getBoolOp(name);
         }
         return backup;
+    }
+    public static boolean isTheBoysServer(SlashCommandInteractionEvent event) {
+        return Objects.requireNonNull(event.getGuild()).getIdLong() == Guilds.theBoys.getIdLong();
+    }
+    public static boolean isTestServer() {
+        return Objects.requireNonNull(TheBotEver.recentCommandEvent.getGuild()).getIdLong() == Guilds.testServer.getIdLong();
     }
 }
