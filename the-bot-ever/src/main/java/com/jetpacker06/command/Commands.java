@@ -1,9 +1,8 @@
 package com.jetpacker06.command;
 
 import com.jetpacker06.TheBotEver;
-import com.jetpacker06.json.Save;
-import com.jetpacker06.json.SaveData;
 import com.jetpacker06.util.Util;
+import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.MessageBuilder;
 import net.dv8tion.jda.api.entities.Message;
@@ -16,11 +15,14 @@ import net.dv8tion.jda.api.interactions.commands.build.SlashCommandData;
 import net.dv8tion.jda.api.requests.restaction.CommandListUpdateAction;
 import org.jetbrains.annotations.NotNull;
 
-import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Random;
 
+import static com.jetpacker06.TheBotEver.log;
+
+@SuppressWarnings("ResultOfMethodCallIgnored")
 public class Commands extends ListenerAdapter {
     @Override
     public void onGenericEvent(@NotNull GenericEvent event) {
@@ -39,51 +41,111 @@ public class Commands extends ListenerAdapter {
     }
 
     public static Map<String, CommandTask> slashCommandsMap = new HashMap<>();
-    public static void registerSlashCommands(JDA jda) {
-        CommandListUpdateAction commands = jda.updateCommands();
-         addCommand(commands,
-            "jackboxwin",
-            "Add a win to a player.",
-            (event) -> {
-                Save.saveData("jackboxwins", Save.getInt("jackboxwins", event.getGuild(), event.getOption("winner").getAsUser()), event.getGuild(), event.getUser());
 
-                TheBotEver.jackboxMessage.editMessage(new MessageBuilder().setEmbeds(SaveData.getJackboxEmbed()).build()).queue();
-            },
-            new CommandField(OptionType.USER, "winner", "The user to add the win to.", true)
+    //This is always null except while registerSlashCommands() is actively executing
+    public static CommandListUpdateAction clua = null;
+    public static void registerSlashCommands() {
+        JDA jda = TheBotEver.jda;
+        clua = jda.updateCommands();
+        addCommand(
+                "kys",
+                "Send a KYS gif",
+                (event) -> {
+                    event.reply(new MessageBuilder().setEmbeds(Util.createImageEmbed(Util.kys_list[new Random().nextInt(Util.kys_list.length)])).build()).queue();
+                }
         );
-        addCommand(commands,
-            "kys",
-            "Send a KYS gif",
-            (event) -> {
-                event.reply(new MessageBuilder().setEmbeds(Util.createImageEmbed(Util.kys_list[new Random().nextInt(Util.kys_list.length)])).build()).queue();
-            }
+        addCommand(
+                "jacobxlawrence",
+                "jacob x lawrence",
+                (event) -> {
+                    event.reply(new MessageBuilder().setEmbeds(Util.createImageEmbed("https://cdn.discordapp.com/attachments/1012378583773233162/1013312028695334942/unknown.png")).build()).queue();
+                }
         );
-        addCommand(commands,
-            "jacobxlawrence",
-            "jacob x lawrence",
-            (event) -> {
-                event.reply(new MessageBuilder().setEmbeds(Util.createImageEmbed("https://cdn.discordapp.com/attachments/1012378583773233162/1013312028695334942/unknown.png")).build()).queue();
-            }
+        addCommand("emote", "Do an emote.", (event) -> {
+            event.reply(new MessageBuilder().setEmbeds(Util.createImageEmbed(Util.emotes_list[new Random().nextInt(Util.emotes_list.length)])).build()).queue();
+        });
+        addCommand("think", "Hmm...", (event) -> {
+            event.deferReply().queue();
+        });
+        addCommand(
+                "plan",
+                "Plan an event",
+                (event) -> {
+                    EmbedBuilder builder = Util.blueBuilder();
+                    builder.setTitle(getStrOp("event"));
+                    builder.addField("Organizer", event.getMember().getEffectiveName(), false);
+
+                    builder.addField("Event", getStrOp("event"), false);
+                    if (optionExists("where")) builder.addField("Where", getStrOp("where"), false);
+                    if (optionExists("when")) builder.addField("When", getStrOp("when"), false);
+                    if (optionExists("bring")) builder.addField("Bring", getStrOp("bring"), false);
+                    if (optionExists("extrainformation")) builder.addField("Extra Information", getStrOp("extrainformation"), false);
+
+                    MessageBuilder m = new MessageBuilder();
+                    if (boolOrElse("ping", false)) m.append("||@everyone||");
+                    m.setEmbeds(builder.build());
+
+                    event.reply(m.build()).queue();
+                },
+                new CommandField(OptionType.STRING, "event", "What is the event?", true),
+                new CommandField(OptionType.STRING, "when", "When is the event?", false),
+                new CommandField(OptionType.STRING, "where", "Where is the event?", false),
+                new CommandField(OptionType.STRING, "bring", "What should be brought?", false),
+                new CommandField(OptionType.STRING, "extrainformation", "Extra information?", false),
+                new CommandField(OptionType.BOOLEAN, "ping", "Should the bot ping everyone?", false),
+                new CommandField(OptionType.BOOLEAN, "role", "Should a role be created for the event? WIP", false)
         );
-        commands.queue();
+
+        clua.queue();
+        clua = null;
     }
 
-    public static void addCommand(CommandListUpdateAction commands, String name, String description, CommandTask runnable, CommandField... fields) {
+    public static void addCommand(String name, String description, CommandTask runnable, CommandField... fields) {
         SlashCommandData command = net.dv8tion.jda.api.interactions.commands.build.Commands.slash(name, description);
         for (CommandField field : fields) {
             command.addOption(field.optionType(), field.name(), field.description(), field.required());
         }
-        commands.addCommands(command);
+        clua.addCommands(command);
         slashCommandsMap.put(name, runnable);
     }
 
     @Override
     public void onMessageReceived(@NotNull MessageReceivedEvent event) {
-        //Use this to send the base jackboxembed
-        if (event.getMessage().getContentRaw().equals("sendjackboxembed")) {
-            Message toSend = new MessageBuilder().setEmbeds(SaveData.getJackboxEmbed()).build();
-            event.getMessage().getChannel().sendMessage(toSend).queue();
-            TheBotEver.jackboxMessage = toSend;
+    }
+
+    public static boolean optionExists(String name) {
+        try {
+            return TheBotEver.recentCommandEvent.getOption(name) != null;
+        } catch (Exception ignored) {}
+        return false;
+    }
+
+    public static String getStrOp(String optionName) {
+        return Objects.requireNonNull(TheBotEver.recentCommandEvent.getOption(optionName)).getAsString();
+    }
+    public static boolean getBoolOp(String optionName) {
+        return Objects.requireNonNull(TheBotEver.recentCommandEvent.getOption(optionName)).getAsBoolean();
+    }
+    public static int getIntOp(String optionName) {
+        return Objects.requireNonNull(TheBotEver.recentCommandEvent.getOption(optionName)).getAsInt();
+    }
+
+    public static int intOrElse(String name, int backup) {
+        if (optionExists(name)) {
+            return getIntOp(name);
         }
+        return backup;
+    }
+    public static String strOrElse(String name, String backup) {
+        if (optionExists(name)) {
+            return getStrOp(name);
+        }
+        return backup;
+    }
+    public static boolean boolOrElse(String name, boolean backup) {
+        if (optionExists(name)) {
+            return getBoolOp(name);
+        }
+        return backup;
     }
 }

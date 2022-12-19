@@ -18,6 +18,15 @@ import static com.jetpacker06.TheBotEver.log;
 
 
 public class Util {
+    public static String[] emotes_list = {
+        "https://c.tenor.com/awnbsntmYkoAAAAd/fortnite-dance-fortnite-emote.gif",
+        "https://c.tenor.com/vjDSipHhsjAAAAAd/fortnite-snake-eyes.gif",
+        "https://thumbs.gfycat.com/AmazingViciousElephantbeetle-size_restricted.gif",
+        "https://i.gifer.com/fy2C.gif",
+        "https://www.icegif.com/wp-content/uploads/fortnite-icegif-14.gif",
+        "https://media4.giphy.com/media/SG5paY6WxH6Ki2lWys/200.gif",
+        "https://cdn.mobilesyrup.com/wp-content/uploads/2020/02/fortnite-rickroll-emote.gif"
+    };
     public static String[] kys_list = {
         "https://c.tenor.com/HyplAGaP7bAAAAAC/bill-nye-consider-the-following.gif",
         "https://c.tenor.com/2huFMTUd_I8AAAAd/kill-yourself.gif",
