@@ -1,6 +1,5 @@
-package com.jetpacker06.util;
+package com.jetpacker06.thebotever.util;
 
-import net.dv8tion.jda.api.entities.Channel;
 import net.dv8tion.jda.api.entities.TextChannel;
 
 public class Channels {

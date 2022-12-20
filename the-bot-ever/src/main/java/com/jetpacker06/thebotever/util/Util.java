@@ -1,8 +1,7 @@
-package com.jetpacker06.util;
+package com.jetpacker06.thebotever.util;
 
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonObject;
-import com.jetpacker06.TheBotEver;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.MessageEmbed;
 import net.dv8tion.jda.api.entities.TextChannel;
@@ -14,7 +13,7 @@ import java.util.Objects;
 import java.util.Random;
 import java.util.Scanner;
 
-import static com.jetpacker06.TheBotEver.log;
+import static com.jetpacker06.thebotever.TheBotEver.log;
 
 
 public class Util {

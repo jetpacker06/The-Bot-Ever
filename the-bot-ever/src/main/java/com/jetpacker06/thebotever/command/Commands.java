@@ -1,9 +1,9 @@
-package com.jetpacker06.command;
+package com.jetpacker06.thebotever.command;
 
-import com.jetpacker06.TheBotEver;
-import com.jetpacker06.util.Channels;
-import com.jetpacker06.util.Guilds;
-import com.jetpacker06.util.Util;
+import com.jetpacker06.thebotever.TheBotEver;
+import com.jetpacker06.thebotever.util.Channels;
+import com.jetpacker06.thebotever.util.Guilds;
+import com.jetpacker06.thebotever.util.Util;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.MessageBuilder;
 import net.dv8tion.jda.api.entities.TextChannel;

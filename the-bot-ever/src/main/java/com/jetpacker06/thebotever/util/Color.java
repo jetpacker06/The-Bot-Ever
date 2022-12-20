@@ -1,4 +1,4 @@
-package com.jetpacker06.util;
+package com.jetpacker06.thebotever.util;
 
 public class Color {
     public static int RED = 0xff0000;

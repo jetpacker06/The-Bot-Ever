@@ -1,13 +1,12 @@
-package com.jetpacker06;
+package com.jetpacker06.thebotever;
 
-import com.jetpacker06.command.Commands;
-import com.jetpacker06.util.Channels;
-import com.jetpacker06.util.Guilds;
+import com.jetpacker06.thebotever.command.Commands;
+import com.jetpacker06.thebotever.util.Channels;
+import com.jetpacker06.thebotever.util.Guilds;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.JDABuilder;
 import net.dv8tion.jda.api.OnlineStatus;
 import net.dv8tion.jda.api.entities.Activity;
-import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.events.GenericEvent;
 import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
 import net.dv8tion.jda.api.requests.GatewayIntent;

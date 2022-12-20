@@ -1,4 +1,4 @@
-package com.jetpacker06.command;
+package com.jetpacker06.thebotever.command;
 
 import net.dv8tion.jda.api.interactions.commands.OptionType;
 
