@@ -1,4 +1,4 @@
-package com.jetpacker06.thebotever.command.role;
+package com.jetpacker06.thebotever.command.commands.role;
 
 import com.jetpacker06.thebotever.TheBotEver;
 import com.jetpacker06.thebotever.command.CommandUtil;
@@ -9,7 +9,6 @@ import com.jetpacker06.thebotever.util.Guilds;
 import com.jetpacker06.thebotever.util.Util;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.JDA;
-import net.dv8tion.jda.api.MessageBuilder;
 import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.Role;
@@ -26,10 +25,9 @@ import org.jetbrains.annotations.NotNull;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Objects;
 
 @SuppressWarnings("ResultOfMethodCallIgnored")
-public class RoleMenuCommand extends ListenerAdapter {
+public class RoleMenuCommand extends ListenerAdapter { /*
     public static HashMap<String, Integer> rolesColorsMap = new HashMap<>();
     private boolean rolesInitialized = false;
     static {
@@ -112,5 +110,5 @@ public class RoleMenuCommand extends ListenerAdapter {
             guild.modifyMemberRoles(member, roles).queue();
         }
         event.reply("Applied role!").setEphemeral(true).queue();
-    }
+    } */
 }

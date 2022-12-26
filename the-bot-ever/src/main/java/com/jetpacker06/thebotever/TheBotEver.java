@@ -1,7 +1,8 @@
 package com.jetpacker06.thebotever;
 
+import com.jetpacker06.thebotever.command.CommandInit;
 import com.jetpacker06.thebotever.command.Commands;
-import com.jetpacker06.thebotever.command.role.RoleMenuCommand;
+import com.jetpacker06.thebotever.command.commands.role.RoleMenuCommand;
 import com.jetpacker06.thebotever.util.Channels;
 import com.jetpacker06.thebotever.util.Guilds;
 import com.jetpacker06.thebotever.util.Util;
@@ -12,10 +13,12 @@ import net.dv8tion.jda.api.entities.Activity;
 import net.dv8tion.jda.api.events.GenericEvent;
 import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
 import net.dv8tion.jda.api.requests.GatewayIntent;
+import org.reflections.Reflections;
 
 import javax.security.auth.login.LoginException;
 
 public class TheBotEver {
+    public static Reflections reflections = new Reflections("com.jetpacker06");
     public static GenericEvent recentEvent;
     public static SlashCommandInteractionEvent recentCommandEvent;
     public static final String BOT_KEY = System.getenv().containsKey("TheBotEverDiscordBotKey") ? System.getenv("TheBotEverDiscordBotKey") : Util.readFile("botkey.txt");
@@ -42,7 +45,7 @@ public class TheBotEver {
         Channels.roles = jda.getTextChannelById(1055512912451612752L);
         Channels.jgeneral = jda.getTextChannelById(945662624673189899L);
 
-        Commands.registerSlashCommands();
+        CommandInit.registerSlashCommands();
 
     }
     public static void log(Object message) {
