@@ -2,6 +2,7 @@ package com.jetpacker06.thebotever.command;
 
 import com.jetpacker06.thebotever.TheBotEver;
 import com.jetpacker06.thebotever.util.Channels;
+import com.jetpacker06.thebotever.util.Emojis;
 import com.jetpacker06.thebotever.util.Guilds;
 import com.jetpacker06.thebotever.util.Util;
 import net.dv8tion.jda.api.EmbedBuilder;
@@ -13,6 +14,7 @@ import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEve
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
 import net.dv8tion.jda.api.interactions.commands.OptionType;
+import net.dv8tion.jda.api.interactions.commands.build.OptionData;
 import net.dv8tion.jda.api.interactions.commands.build.SlashCommandData;
 import net.dv8tion.jda.api.requests.restaction.CommandListUpdateAction;
 import org.jetbrains.annotations.NotNull;
@@ -34,6 +36,7 @@ public class Commands extends ListenerAdapter {
 
     @Override
     public void onSlashCommandInteraction(@NotNull SlashCommandInteractionEvent event) {
+        if (CommandUtil.notInCorrectServer(event)) return;
         String commandSent = event.getName();
         if (Util.isStringInList(commandSent, slashCommandsMap.keySet().toArray(new String[0]))) {
             slashCommandsMap.get(commandSent).run(event);
@@ -74,6 +77,14 @@ public class Commands extends ListenerAdapter {
                 event.deferReply().queue();
         });
         addCommand(
+                "role-menu",
+                "Create a role selection menu.",
+                (event) -> {},
+                stringOption("roles", "Names of the roles separated by a semicolon.", true),
+                stringOption("title", "Message title", true),
+                stringOption("description", "Optional text.", false)
+        );
+        addCommand(
                 "plan",
                 "Plan an event",
                 (event) -> {
@@ -100,28 +111,28 @@ public class Commands extends ListenerAdapter {
                     }
 
                     channel.sendMessage(m.build()).queue((message) -> {
-                        message.addReaction(Emoji.fromUnicode("U+2B06")).queue(); //up arrow
-                        message.addReaction(Emoji.fromUnicode("U+2B07")).queue(); //down arrow
+                        message.addReaction(Emojis.UP_ARROW).queue();
+                        message.addReaction(Emojis.DOWN_ARROW).queue();
                     });
                     event.getHook().deleteOriginal().queue();
                 },
-                new CommandField(OptionType.STRING, "event", "What is the event?", true),
-                new CommandField(OptionType.STRING, "when", "When is the event?", false),
-                new CommandField(OptionType.STRING, "where", "Where is the event?", false),
-                new CommandField(OptionType.STRING, "bring", "What should be brought?", false),
-                new CommandField(OptionType.STRING, "extrainformation", "Extra information?", false),
-                new CommandField(OptionType.BOOLEAN, "ping", "Should the bot ping everyone?", false),
-                new CommandField(OptionType.BOOLEAN, "role", "Should a role be created for the event? WIP", false)
+                stringOption("event", "What is the event?", true),
+                stringOption("when", "When is the event?", false),
+                stringOption("where", "Where is the event?", false),
+                stringOption("bring", "What should be brought?", false),
+                stringOption("extrainformation", "Extra information?", false),
+                boolOption("ping", "Should the bot ping everyone?", false),
+                boolOption("role", "Should a role be created for the event? WIP", false)
         );
 
         clua.queue();
         clua = null;
     }
 
-    public static void addCommand(String name, String description, CommandTask runnable, CommandField... fields) {
+    public static void addCommand(String name, String description, CommandTask runnable, OptionData... fields) {
         SlashCommandData command = net.dv8tion.jda.api.interactions.commands.build.Commands.slash(name, description);
-        for (CommandField field : fields) {
-            command.addOption(field.optionType(), field.name(), field.description(), field.required());
+        for (OptionData field : fields) {
+            command.addOption(field.getType(), field.getName(), field.getDescription(), field.isRequired());
         }
         clua.addCommands(command);
         slashCommandsMap.put(name, runnable);
@@ -171,5 +182,14 @@ public class Commands extends ListenerAdapter {
     }
     public static boolean isTestServer() {
         return Objects.requireNonNull(TheBotEver.recentCommandEvent.getGuild()).getIdLong() == Guilds.testServer.getIdLong();
+    }
+    public static OptionData stringOption(String name, String description, boolean required) {
+        return new OptionData(OptionType.STRING, name, description, required);
+    }
+    public static OptionData intOption(String name, String description, boolean required) {
+        return new OptionData(OptionType.INTEGER, name, description, required);
+    }
+    public static OptionData boolOption(String name, String description, boolean required) {
+        return new OptionData(OptionType.BOOLEAN, name, description, required);
     }
 }

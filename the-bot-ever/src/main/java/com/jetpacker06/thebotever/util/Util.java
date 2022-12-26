@@ -51,7 +51,7 @@ public class Util {
         channel.sendMessage(message).queue();
     }
     public static EmbedBuilder blueBuilder() {
-        return new EmbedBuilder().setColor(Color.BLUE);
+        return new EmbedBuilder().setColor(Colors.BLUE);
     }
     public static EmbedBuilder coloredEmbedBuilder(int color) {
         return new EmbedBuilder().setColor(color);
@@ -65,16 +65,21 @@ public class Util {
     public static String getUsername(User user) {
         return user.getName() + "#" + user.getDiscriminator();
     }
-    public static String readFile(String path) throws IOException {
-        new File(path).createNewFile();
-        File data_file = new File(path);
-        Scanner fileScanner = new Scanner(data_file);
-        String contents = "";
-        while (fileScanner.hasNext()) {
-            contents += (fileScanner.next());
+    public static String readFile(String path) {
+        try {
+            new File(path).createNewFile();
+            File data_file = new File(path);
+            Scanner fileScanner = new Scanner(data_file);
+            StringBuilder contents = new StringBuilder();
+            while (fileScanner.hasNext()) {
+                contents.append(fileScanner.next());
+            }
+            fileScanner.close();
+            return contents.toString();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
         }
-        fileScanner.close();
-        return contents;
+
     }
     public static String JSONObjectToString(JsonObject json) {
         return new GsonBuilder().setPrettyPrinting().create().toJson(json);
