@@ -2,28 +2,28 @@ package com.jetpacker06.thebotever.command.commands.basic;
 
 import com.jetpacker06.thebotever.command.commands.Command;
 import com.jetpacker06.thebotever.util.Util;
-import net.dv8tion.jda.api.MessageBuilder;
 import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
 
-public class JacobXLawrenceCommand extends Command {
+public class HeslipCommand extends Command {
     @Override
     public String getName() {
-        return "jacobxlawrence";
+        return "heslip";
     }
     @Override
     public String getDescription() {
-        return "jacob x lawrence";
+        return "Jumpscare warning";
     }
 
     @Override
     public boolean forFriendsOnly() {
-        return true;
+        return false;
     }
 
     @Override
     public void execute(SlashCommandInteractionEvent event) {
-        event.reply(new MessageBuilder().setEmbeds(Util.createImageEmbed(gif_link)).build()).queue();
+        event.replyEmbeds(Util.createImageEmbed(
+                "https://cdn.discordapp.com/attachments/1068342911088996362/1071989873407434834/Resized_20230115_090556.jpg"
+        )).queue();
     }
-
-    public static final String gif_link = "https://cdn.discordapp.com/attachments/1012378583773233162/1013312028695334942/unknown.png";
 }
+//1073070703571636435L

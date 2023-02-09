@@ -27,7 +27,7 @@ import java.util.HashMap;
 import java.util.List;
 
 @SuppressWarnings("ResultOfMethodCallIgnored")
-public class RoleMenuCommand extends ListenerAdapter { /*
+public class RoleMenuCommand { /*
     public static HashMap<String, Integer> rolesColorsMap = new HashMap<>();
     private boolean rolesInitialized = false;
     static {

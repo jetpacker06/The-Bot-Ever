@@ -16,9 +16,6 @@ jar {
         attributes(
             'Main-Class': 'com.jetpacker06.thebotever.TheBotEver'
         )
-        //from {
-        //    configurations.runtimeClasspath.collect {it.isDirectory() ? it : zipTree(it)}
-        //}
     }
 }
 

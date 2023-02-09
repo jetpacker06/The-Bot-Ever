@@ -21,15 +21,15 @@ public class Util {
         return array[new Random().nextInt(array.length)];
     }
 
-    public static boolean isStringInList(String thing, String[] list) {
-        boolean flag = false;
-        for (String s : list) {
+    public static <T> boolean isThingInList(T thing, T[] list) {
+        boolean toReturn = false;
+        for (T s : list) {
             if (Objects.equals(s, thing)) {
-                flag = true;
+                toReturn = true;
                 break;
             }
         }
-        return flag;
+        return toReturn;
     }
     public static void sendMessage(String message, TextChannel channel) {
         channel.sendMessage(message).queue();

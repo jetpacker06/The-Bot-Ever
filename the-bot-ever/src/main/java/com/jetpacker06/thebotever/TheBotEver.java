@@ -2,7 +2,6 @@ package com.jetpacker06.thebotever;
 
 import com.jetpacker06.thebotever.command.CommandInit;
 import com.jetpacker06.thebotever.command.Commands;
-import com.jetpacker06.thebotever.command.commands.role.RoleMenuCommand;
 import com.jetpacker06.thebotever.util.Channels;
 import com.jetpacker06.thebotever.util.Guilds;
 import com.jetpacker06.thebotever.util.Util;
@@ -21,7 +20,8 @@ public class TheBotEver {
     public static Reflections reflections = new Reflections("com.jetpacker06");
     public static GenericEvent recentEvent;
     public static SlashCommandInteractionEvent recentCommandEvent;
-    public static final String BOT_KEY = System.getenv().containsKey("TheBotEverDiscordBotKey") ? System.getenv("TheBotEverDiscordBotKey") : Util.readFile("botkey.txt");
+    public static final String BOT_KEY = System.getenv().containsKey("TheBotEverDiscordBotKey")
+            ? System.getenv("TheBotEverDiscordBotKey") : Util.readFile("botkey.txt");
     private static boolean logSpamMode = false;
     public static JDA jda;
 
@@ -35,7 +35,7 @@ public class TheBotEver {
         .setActivity(Activity.watching("closely."))
         .enableIntents(GatewayIntent.MESSAGE_CONTENT)
         .setStatus(OnlineStatus.ONLINE)
-        .addEventListeners(new Commands(), new RoleMenuCommand())
+        .addEventListeners(new Commands())
         .build()
         .awaitReady();
 
@@ -43,6 +43,9 @@ public class TheBotEver {
         Guilds.testServer = jda.getGuildById(945662624224382998L);
         Channels.plans = jda.getTextChannelById(1050915980269854730L);
         Channels.roles = jda.getTextChannelById(1055512912451612752L);
+        Channels.noLawrence = jda.getVoiceChannelById(1053151295231500308L);
+        Channels.noJacob = jda.getVoiceChannelById(1054271899682734160L);
+        Channels.testNoCody = jda.getVoiceChannelById(1073007761060806667L);
         Channels.jgeneral = jda.getTextChannelById(945662624673189899L);
 
         CommandInit.registerSlashCommands();

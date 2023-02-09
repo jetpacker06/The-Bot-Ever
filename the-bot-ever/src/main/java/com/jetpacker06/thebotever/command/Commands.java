@@ -2,16 +2,17 @@ package com.jetpacker06.thebotever.command;
 
 import com.jetpacker06.thebotever.TheBotEver;
 import com.jetpacker06.thebotever.command.commands.Command;
-import com.jetpacker06.thebotever.util.Guilds;
+import com.jetpacker06.thebotever.util.Channels;
+import com.jetpacker06.thebotever.util.UserIDs;
+import net.dv8tion.jda.api.entities.*;
 import net.dv8tion.jda.api.events.GenericEvent;
+import net.dv8tion.jda.api.events.guild.voice.GuildVoiceJoinEvent;
+import net.dv8tion.jda.api.events.guild.voice.GuildVoiceMoveEvent;
 import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
-import net.dv8tion.jda.api.interactions.commands.OptionType;
-import net.dv8tion.jda.api.interactions.commands.build.OptionData;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.HashMap;
-import java.util.Objects;
 import java.util.Set;
 
 public class Commands extends ListenerAdapter {
@@ -36,53 +37,24 @@ public class Commands extends ListenerAdapter {
         return TheBotEver.reflections.getSubTypesOf(Command.class);
     }
 
-    public static String getStrOp(String optionName) {
-        return Objects.requireNonNull(TheBotEver.recentCommandEvent.getOption(optionName)).getAsString();
-    }
-    public static boolean getBoolOp(String optionName) {
-        return Objects.requireNonNull(TheBotEver.recentCommandEvent.getOption(optionName)).getAsBoolean();
-    }
-    public static int getIntOp(String optionName) {
-        return Objects.requireNonNull(TheBotEver.recentCommandEvent.getOption(optionName)).getAsInt();
+    @Override
+    public void onGuildVoiceJoin(@NotNull GuildVoiceJoinEvent event) {
+        ensureAllowedInChannel(event.getMember(), event.getChannelJoined(), event.getGuild());
     }
 
-    public static int intOrElse(String name, int backup) {
-        if (optionExists(name)) {
-            return getIntOp(name);
+    @Override
+    public void onGuildVoiceMove(@NotNull GuildVoiceMoveEvent event) {
+        ensureAllowedInChannel(event.getMember(), event.getChannelJoined(), event.getGuild());
+    }
+    private static void ensureAllowedInChannel(Member member, AudioChannel channel, Guild guild) {
+        if (member.getIdLong() == UserIDs.cody & channel == Channels.testNoCody) {
+            guild.kickVoiceMember(member).queue();
         }
-        return backup;
-    }
-    public static String strOrElse(String name, String backup) {
-        if (optionExists(name)) {
-            return getStrOp(name);
+        if (member.getIdLong() == UserIDs.lawrence & channel == Channels.noLawrence) {
+            guild.kickVoiceMember(member).queue();
         }
-        return backup;
-    }
-    public static boolean boolOrElse(String name, boolean backup) {
-        if (optionExists(name)) {
-            return getBoolOp(name);
+        if (member.getIdLong() == UserIDs.jacob & channel == Channels.noJacob) {
+            guild.kickVoiceMember(member).queue();
         }
-        return backup;
-    }
-    public static boolean isTheBoysServer(SlashCommandInteractionEvent event) {
-        return Objects.requireNonNull(event.getGuild()).getIdLong() == Guilds.theBoys.getIdLong();
-    }
-    public static boolean isTestServer() {
-        return Objects.requireNonNull(TheBotEver.recentCommandEvent.getGuild()).getIdLong() == Guilds.testServer.getIdLong();
-    }
-    public static OptionData stringOption(String name, String description, boolean required) {
-        return new OptionData(OptionType.STRING, name, description, required);
-    }
-    public static OptionData intOption(String name, String description, boolean required) {
-        return new OptionData(OptionType.INTEGER, name, description, required);
-    }
-    public static OptionData boolOption(String name, String description, boolean required) {
-        return new OptionData(OptionType.BOOLEAN, name, description, required);
-    }
-    public static boolean optionExists(String name) {
-        try {
-            return TheBotEver.recentCommandEvent.getOption(name) != null;
-        } catch (Exception ignored) {}
-        return false;
     }
 }

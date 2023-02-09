@@ -29,15 +29,15 @@ public class PlanCommand extends Command{
 
     @Override
     public ArrayList<OptionData> getOptions() {
-        ArrayList<OptionData> toReturn = new ArrayList<>();
-        toReturn.add(stringOption("event", "What is the event?", true));
-        toReturn.add(stringOption("when", "When is the event?", false));
-        toReturn.add(stringOption("where", "Where is the event?", false));
-        toReturn.add(stringOption("bring", "What should be brought?", false));
-        toReturn.add(stringOption("extrainformation", "Extra information?", false));
-        toReturn.add(boolOption("ping", "Should the bot ping everyone?", false));
-        toReturn.add(boolOption("role", "Should a role be created for the event? WIP", false));
-        return toReturn;
+        return optionsList(
+                stringOption("event", "What is the event?", true),
+                stringOption("when", "When is the event?", false),
+                stringOption("where", "Where is the event?", false),
+                stringOption("bring", "What should be brought?", false),
+                stringOption("extrainformation", "Extra information?", false),
+                boolOption("ping", "Should the bot ping everyone?", false),
+                boolOption("role", "Should a role be created for the event? WIP", false)
+        );
     }
 
     @Override

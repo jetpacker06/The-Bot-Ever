@@ -9,6 +9,7 @@ import net.dv8tion.jda.api.interactions.commands.build.OptionData;
 import net.dv8tion.jda.api.interactions.commands.build.SlashCommandData;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Objects;
 
 public abstract class Command {
@@ -32,53 +33,56 @@ public abstract class Command {
     public abstract void execute(SlashCommandInteractionEvent event);
 
 
-    String getStrOp(String optionName) {
+    public String getStrOp(String optionName) {
         return Objects.requireNonNull(TheBotEver.recentCommandEvent.getOption(optionName)).getAsString();
     }
-    boolean getBoolOp(String optionName) {
+    public boolean getBoolOp(String optionName) {
         return Objects.requireNonNull(TheBotEver.recentCommandEvent.getOption(optionName)).getAsBoolean();
     }
-    int getIntOp(String optionName) {
+    public int getIntOp(String optionName) {
         return Objects.requireNonNull(TheBotEver.recentCommandEvent.getOption(optionName)).getAsInt();
     }
 
-    int intOrElse(String name, int backup) {
+    public int intOrElse(String name, int backup) {
         if (optionExists(name)) {
             return getIntOp(name);
         }
         return backup;
     }
-    String strOrElse(String name, String backup) {
+    public String strOrElse(String name, String backup) {
         if (optionExists(name)) {
             return getStrOp(name);
         }
         return backup;
     }
-    boolean boolOrElse(String name, boolean backup) {
+    public boolean boolOrElse(String name, boolean backup) {
         if (optionExists(name)) {
             return getBoolOp(name);
         }
         return backup;
     }
-    boolean isTheBoysServer(SlashCommandInteractionEvent event) {
+    public boolean isTheBoysServer(SlashCommandInteractionEvent event) {
         return Objects.requireNonNull(event.getGuild()).getIdLong() == Guilds.theBoys.getIdLong();
     }
-    boolean isTestServer() {
+    public boolean isTestServer() {
         return Objects.requireNonNull(TheBotEver.recentCommandEvent.getGuild()).getIdLong() == Guilds.testServer.getIdLong();
     }
-    OptionData stringOption(String name, String description, boolean required) {
+    public OptionData stringOption(String name, String description, boolean required) {
         return new OptionData(OptionType.STRING, name, description, required);
     }
-    OptionData intOption(String name, String description, boolean required) {
+    public OptionData intOption(String name, String description, boolean required) {
         return new OptionData(OptionType.INTEGER, name, description, required);
     }
-    OptionData boolOption(String name, String description, boolean required) {
+    public OptionData boolOption(String name, String description, boolean required) {
         return new OptionData(OptionType.BOOLEAN, name, description, required);
     }
-    boolean optionExists(String name) {
+    public boolean optionExists(String name) {
         try {
             return TheBotEver.recentCommandEvent.getOption(name) != null;
         } catch (Exception ignored) {}
         return false;
+    }
+    public ArrayList<OptionData> optionsList(OptionData... options) {
+        return new ArrayList<>(Arrays.asList(options));
     }
 }
