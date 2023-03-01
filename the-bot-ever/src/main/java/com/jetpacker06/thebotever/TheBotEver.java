@@ -2,9 +2,9 @@ package com.jetpacker06.thebotever;
 
 import com.jetpacker06.thebotever.command.CommandInit;
 import com.jetpacker06.thebotever.command.Commands;
-import com.jetpacker06.thebotever.util.Channels;
-import com.jetpacker06.thebotever.util.Guilds;
-import com.jetpacker06.thebotever.util.Util;
+import com.jetpacker06.thebotever.util.*;
+import com.jetpacker06.thebotever.util.entity.entities.Channels;
+import com.jetpacker06.thebotever.util.entity.entities.Guilds;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.JDABuilder;
 import net.dv8tion.jda.api.OnlineStatus;
@@ -39,14 +39,14 @@ public class TheBotEver {
         .build()
         .awaitReady();
 
-        Guilds.theBoys = jda.getGuildById(1012378583332814898L);
+        Guilds.theBoys = jda.getGuildById(1080478548948684900L);
         Guilds.testServer = jda.getGuildById(945662624224382998L);
-        Channels.plans = jda.getTextChannelById(1050915980269854730L);
-        Channels.roles = jda.getTextChannelById(1055512912451612752L);
-        Channels.noLawrence = jda.getVoiceChannelById(1053151295231500308L);
-        Channels.noJacob = jda.getVoiceChannelById(1054271899682734160L);
+        Channels.plans = jda.getTextChannelById(1080616389045395486L);
+        Channels.noLawrence = jda.getVoiceChannelById(1080625271100669962L);
+        Channels.noJacob = jda.getVoiceChannelById(1080625184899346512L);
         Channels.testNoCody = jda.getVoiceChannelById(1073007761060806667L);
-        Channels.jgeneral = jda.getTextChannelById(945662624673189899L);
+        Channels.jgeneral = jda.getTextChannelById(1076725461054402570L);
+
 
         CommandInit.registerSlashCommands();
 

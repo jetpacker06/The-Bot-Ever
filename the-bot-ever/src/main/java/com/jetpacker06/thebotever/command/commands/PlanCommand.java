@@ -1,7 +1,7 @@
 package com.jetpacker06.thebotever.command.commands;
 
-import com.jetpacker06.thebotever.util.Channels;
-import com.jetpacker06.thebotever.util.Emojis;
+import com.jetpacker06.thebotever.util.entity.entities.Channels;
+import com.jetpacker06.thebotever.util.entity.entities.Emojis;
 import com.jetpacker06.thebotever.util.Util;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.MessageBuilder;

@@ -1,4 +1,4 @@
-package com.jetpacker06.thebotever.util;
+package com.jetpacker06.thebotever.util.entity.entities;
 
 import net.dv8tion.jda.api.entities.emoji.Emoji;
 

@@ -2,7 +2,7 @@ package com.jetpacker06.thebotever.command.commands;
 
 import com.jetpacker06.thebotever.TheBotEver;
 import com.jetpacker06.thebotever.command.CommandInit;
-import com.jetpacker06.thebotever.util.Guilds;
+import com.jetpacker06.thebotever.util.entity.entities.Guilds;
 import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
 import net.dv8tion.jda.api.interactions.commands.OptionType;
 import net.dv8tion.jda.api.interactions.commands.build.OptionData;

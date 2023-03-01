@@ -1,6 +1,6 @@
 package com.jetpacker06.thebotever.command;
 
-import com.jetpacker06.thebotever.util.Guilds;
+import com.jetpacker06.thebotever.util.entity.entities.Guilds;
 import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
 

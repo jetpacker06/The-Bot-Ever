@@ -1,4 +1,4 @@
-package com.jetpacker06.thebotever.util;
+package com.jetpacker06.thebotever.util.entity.entities;
 
 public class UserIDs {
     public static final long jacob = 251785354607198217L;

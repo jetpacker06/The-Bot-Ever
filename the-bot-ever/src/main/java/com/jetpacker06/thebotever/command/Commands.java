@@ -2,8 +2,8 @@ package com.jetpacker06.thebotever.command;
 
 import com.jetpacker06.thebotever.TheBotEver;
 import com.jetpacker06.thebotever.command.commands.Command;
-import com.jetpacker06.thebotever.util.Channels;
-import com.jetpacker06.thebotever.util.UserIDs;
+import com.jetpacker06.thebotever.util.entity.entities.Channels;
+import com.jetpacker06.thebotever.util.entity.entities.UserIDs;
 import net.dv8tion.jda.api.entities.*;
 import net.dv8tion.jda.api.events.GenericEvent;
 import net.dv8tion.jda.api.events.guild.voice.GuildVoiceJoinEvent;
