@@ -10,6 +10,7 @@ import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEve
 import net.dv8tion.jda.api.interactions.commands.build.OptionData;
 
 import java.util.ArrayList;
+import java.util.Objects;
 
 public class PlanCommand extends Command{
     @Override
@@ -36,7 +37,7 @@ public class PlanCommand extends Command{
                 stringOption("bring", "What should be brought?", false),
                 stringOption("extrainformation", "Extra information?", false),
                 boolOption("ping", "Should the bot ping everyone?", false),
-                boolOption("role", "Should a role be created for the event? WIP", false)
+                boolOption("thread", "Should a thread be created for the event?", false)
         );
     }
 
@@ -45,7 +46,7 @@ public class PlanCommand extends Command{
         event.deferReply().queue();
         EmbedBuilder builder = Util.blueBuilder();
         builder.setTitle(getStrOp("event"));
-        builder.addField("Organizer", event.getMember().getEffectiveName(), false);
+        builder.addField("Organizer", Objects.requireNonNull(event.getMember()).getEffectiveName(), false);
         builder.addField("Event", getStrOp("event"), false);
 
         if (optionExists("where"))
@@ -56,13 +57,12 @@ public class PlanCommand extends Command{
             builder.addField("Bring", getStrOp("bring"), false);
         if (optionExists("extrainformation"))
             builder.addField("Extra Information", getStrOp("extrainformation"), true);
-
         MessageBuilder m = new MessageBuilder();
         if (boolOrElse("ping", false))
             m.append("||@everyone||");
         m.setEmbeds(builder.build());
-        TextChannel channel;
 
+        TextChannel channel;
         if (isTheBoysServer(event)) {
             channel = Channels.plans;
         } else {
@@ -72,6 +72,12 @@ public class PlanCommand extends Command{
         channel.sendMessage(m.build()).queue((message) -> {
             message.addReaction(Emojis.UP_ARROW).queue();
             message.addReaction(Emojis.DOWN_ARROW).queue();
+            if (boolOrElse("thread", true)) {
+                message.createThreadChannel(getStrOp("event")).queue();
+            }
         });
+        event.getHook().deleteOriginal().queue();
+
+
     }
 }

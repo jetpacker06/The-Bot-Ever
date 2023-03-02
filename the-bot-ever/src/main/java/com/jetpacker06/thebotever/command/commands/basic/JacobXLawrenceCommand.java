@@ -4,7 +4,7 @@ import com.jetpacker06.thebotever.command.commands.Command;
 import com.jetpacker06.thebotever.util.Util;
 import net.dv8tion.jda.api.MessageBuilder;
 import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
-
+/*
 public class JacobXLawrenceCommand extends Command {
     @Override
     public String getName() {
@@ -27,3 +27,4 @@ public class JacobXLawrenceCommand extends Command {
 
     public static final String gif_link = "https://cdn.discordapp.com/attachments/1012378583773233162/1013312028695334942/unknown.png";
 }
+*/

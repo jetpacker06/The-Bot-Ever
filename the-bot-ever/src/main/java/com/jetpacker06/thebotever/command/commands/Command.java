@@ -49,7 +49,7 @@ public abstract class Command {
         }
         return backup;
     }
-    public String strOrElse(String name, String backup) {
+    public String stringOrElse(String name, String backup) {
         if (optionExists(name)) {
             return getStrOp(name);
         }
