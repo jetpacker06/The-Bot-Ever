@@ -41,7 +41,7 @@ public class TheBotEver {
 
         Guilds.theBoys = jda.getGuildById(1080478548948684900L);
         Guilds.testServer = jda.getGuildById(945662624224382998L);
-        Channels.plans = jda.getTextChannelById(1080616389045395486L);
+        Channels.plans = jda.getTextChannelById(1089221441699979345L);
         Channels.noLawrence = jda.getVoiceChannelById(1080625271100669962L);
         Channels.noJacob = jda.getVoiceChannelById(1080625184899346512L);
         Channels.testNoCody = jda.getVoiceChannelById(1073007761060806667L);
